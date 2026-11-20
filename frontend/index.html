@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de productos tecnológicos</title>
+  <!-- Aspecto de la página (lo crearemos en el siguiente paso) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Catálogo de productos tecnológicos</h1>
+
+  <!-- FORMULARIO: aquí se dan de alta los productos -->
+  <section>
+    <h2>Nuevo producto</h2>
+    <form id="form-producto">
+      <label>
+        Nombre
+        <input type="text" id="nombre" required placeholder="MacBook Air M3">
+      </label>
+
+      <label>
+        Marca
+        <input type="text" id="marca" required placeholder="Apple">
+      </label>
+
+      <label>
+        Categoría
+        <!-- Lista cerrada: solo se puede elegir una de estas opciones -->
+        <select id="categoria" required>
+          <option value="">-- Elige una --</option>
+          <option value="portátil">Portátil</option>
+          <option value="móvil">Móvil</option>
+          <option value="tablet">Tablet</option>
+          <option value="audio">Audio</option>
+          <option value="accesorio">Accesorio</option>
+        </select>
+      </label>
+
+      <label>
+        Precio (€)
+        <input type="number" id="precio" required min="0" step="0.01" placeholder="1299">
+      </label>
+
+      <label>
+        Stock (opcional)
+        <input type="number" id="stock" min="0" step="1" value="0">
+      </label>
+
+      <button type="submit">Guardar</button>
+    </form>
+  </section>
+
+  <!-- LISTADO: aquí aparecerán los productos guardados -->
+  <section>
+    <h2>Productos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Marca</th>
+          <th>Categoría</th>
+          <th>Precio (€)</th>
+          <th>Stock</th>
+        </tr>
+      </thead>
+      <!-- Las filas las añadirá app.js -->
+      <tbody id="lista-productos"></tbody>
+    </table>
+  </section>
+
+  <!-- Comportamiento de la página (lo crearemos más adelante) -->
+  <script src="app.js"></script>
+</body>
+</html>
