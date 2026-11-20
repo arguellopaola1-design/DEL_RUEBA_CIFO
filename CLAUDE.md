@@ -29,7 +29,7 @@ Una web sencilla con:
 | Base de datos | MongoDB instalado en local, conectado con Mongoose. MongoDB Compass (opcional) para ver los datos | Fase 3 |
 
 ### Restricciones
-- **Solo local.** Nada de despliegues ni servicios en la nube.
+- **Desarrollo en local; despliegue solo en Render.** Se trabaja en local (MongoDB local, `http://localhost:3000`). Existe un despliegue público en **Render** (plan gratuito) con **MongoDB Atlas** (plan M0), lanzado por **GitHub Actions** (`.github/workflows/deploy.yml`) tras cada push a `main`. Guía: `DESPLIEGUE.md`. Los secretos (`MONGODB_URI`, Deploy Hook) **nunca** van en el código ni en el chat: solo en Render y en los *Secrets* de GitHub. Ningún otro servicio en la nube sin preguntar.
 - **Sin autenticación** de momento.
 - **Git solo en local.** Hay un único repositorio git en la raíz del proyecto (`actividad01/`). Los commits se hacen solo cuando la alumna lo pida. Remoto en GitHub: `https://github.com/arguellopaola1-design/DEL_RUEBA_CIFO.git` (`origin`). Solo se sube (`git push`) cuando la alumna lo pida. El login lo hace ella con un token: Claude nunca ve ni guarda credenciales. Al crear el proyecto NestJS, usa la opción `--skip-git`, porque `nest new` crea su propio repositorio git por defecto y no queremos uno dentro de otro.
 - **Sistema operativo:** macOS o Linux. Si un comando es distinto en cada uno, indica las dos versiones.
@@ -190,4 +190,4 @@ Si durante la ejecución aparece algo no previsto (un error, un cambio de plan),
 - Los errores son parte del aprendizaje: aprovéchalos para explicar.
 
 ## 6. Fuera de alcance (de momento)
-Autenticación, despliegue, Docker, tests automatizados, frameworks de frontend, editar o borrar productos, paginación y validaciones complejas. Si alguna parece necesaria, **propónla y pregunta**; no la añadas por tu cuenta.
+Autenticación, Docker, tests automatizados, frameworks de frontend, editar o borrar productos, paginación y validaciones complejas. Si alguna parece necesaria, **propónla y pregunta**; no la añadas por tu cuenta.

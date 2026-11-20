@@ -1,0 +1,58 @@
+# ============================================================
+#  GitHub Actions: comprobar y desplegar en Render
+# ============================================================
+# Cada vez que se sube algo a la rama "main" (git push), GitHub:
+#   1. COMPRUEBA que el backend se instala y compila sin errores.
+#   2. Si todo va bien, AVISA a Render para que despliegue la nueva versión.
+# Si la comprobación falla, NO se despliega: la web publicada sigue como estaba.
+
+name: Comprobar y desplegar en Render
+
+on:
+  push:
+    branches: [main]
+  # Permite lanzarlo también a mano desde la pestaña "Actions" de GitHub
+  workflow_dispatch:
+
+jobs:
+  # ---------- Trabajo 1: comprobar que el backend compila ----------
+  comprobar:
+    name: Instalar y compilar el backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js 22 (la misma versión que usará Render)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar las librerías (npm ci)
+        run: npm ci
+
+      - name: Compilar el backend (npm run build)
+        run: npm run build
+
+  # ---------- Trabajo 2: avisar a Render (solo si el 1 ha ido bien) ----------
+  desplegar:
+    name: Avisar a Render para que despliegue
+    needs: comprobar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar al Deploy Hook de Render
+        env:
+          # URL secreta de Render, guardada en GitHub → Settings → Secrets → Actions
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "::warning::Todavía no existe el secret RENDER_DEPLOY_HOOK_URL. No se despliega (ver DESPLIEGUE.md, paso 4)."
+            exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$RENDER_DEPLOY_HOOK_URL" > /dev/null
+          echo "✅ Render ha recibido el aviso y empieza a desplegar."

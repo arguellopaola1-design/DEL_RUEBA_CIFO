@@ -8,7 +8,10 @@
 ## 📍 Dónde estamos ahora
 
 - **Fase actual:** ✅ **Las tres fases están cerradas.**
-- **Siguiente paso:** repaso final (diagrama del recorrido de un dato + resumen de cada pieza). Commit "fase3" + push cuando la alumna lo pida.
+- **Trabajo extra en curso:** página del **cliente** (escaparate) en `/tienda.html`, usando el mismo backend y la misma base de datos. ✅ **Hecha** (`tienda.html`, `tienda.css`, `tienda.js`), sin cambios en el backend.
+- **Trabajo extra en curso:** **despliegue en Render** (GitHub Actions + MongoDB Atlas). Archivos preparados y probados en local; **sin commit todavía**.
+- **Hecho:** paso 1 de `DESPLIEGUE.md` (MongoDB Atlas). La alumna comprobó la conexión con `mongosh` → `{ ok: 1 }`.
+- **Siguiente paso:** la alumna da el permiso **Workflows** al token (paso 0) → Claude hace commit + push → pasos 2-5 (Render, Auto-Deploy Off, Deploy Hook, prueba).
 - **Pendiente para la alumna:** leer "📘 Fase 2 explicada" y responder las reflexiones de las fases 1 y 2.
 - **Git:** commits "fase1", "fase2" y "Añadir README del proyecto" subidos a GitHub. **Los cambios de la fase 3 aún no tienen commit.**
 
@@ -106,7 +109,10 @@ actividad01/
 ├── frontend/
 │   ├── index.html   ← estructura: formulario + tabla de productos
 │   ├── styles.css   ← aspecto: tonos malva, distribución lado a lado
-│   └── app.js       ← comportamiento: envía/pide productos al servidor con fetch y pinta la tabla
+│   ├── app.js       ← comportamiento: envía/pide productos al servidor con fetch y pinta la tabla
+│   ├── tienda.html  ← (extra) página del cliente: estructura del escaparate
+│   ├── tienda.css   ← (extra) aspecto del escaparate: cabecera malva y tarjetas en rejilla
+│   └── tienda.js    ← (extra) pide los productos (GET /api/products) y crea una tarjeta por producto
 └── backend/         ← proyecto NestJS (servidor)
     ├── package.json ← lista de librerías del backend y comandos (npm run start)
     ├── node_modules/← librerías descargadas (no se guardan en git)
@@ -136,12 +142,15 @@ NestJS también crea archivos que **no usamos** (tests, configuración de format
 | Cómo ver la web | Fase 1: `file://` (doble clic). **Desde la fase 2: http://localhost:3000** | `CLAUDE.md`: solo local, sin despliegues |
 | Despliegue en internet | **No** (se pidió dos veces; se explicó que está fuera de alcance) | `CLAUDE.md`: solo local |
 | Control de versiones | **Git en local + GitHub** (`origin`). Commits y push solo cuando la alumna lo pida | Petición de la alumna |
+| Página del cliente (extra) | **Tarjetas**, mismos colores malva, aviso "En stock / Agotado", sin filtro ni enlaces entre páginas. Archivos propios: `tienda.html`, `tienda.css`, `tienda.js`. **Sin cambios en el backend** | Elección de la alumna. Lección: un mismo backend sirve a varios frontends |
+| Despliegue (extra) | **Render** (Free) + **MongoDB Atlas** (M0) + **GitHub Actions** con *Deploy Hook*; Auto-Deploy de Render **apagado** | Petición de la alumna. Render no puede llegar al MongoDB local; Actions hace de control de calidad antes de desplegar |
+| Node en producción | **22.x** (`engines` en `package.json` y en Actions) | Versión LTS, compatible con NestJS 11 |
 | Analogías | **De una tienda de tecnología** (mostrador = frontend, dependiente = backend, almacén = base de datos) | Petición de la alumna |
 | Herramienta de NestJS | Usada con **`npx`** (versión 11.0.24), **sin instalar nada global** | `CLAUDE.md` 5.5: nada global sin permiso |
 | Versión de `@nestjs/serve-static` | **5.0.5** (la 12.x es para NestJS 12; nuestro NestJS es el 11) | Compatibilidad |
 | Instalación de MongoDB | **En `~/mongodb`, descargado de la web oficial**, sin Homebrew | El Homebrew del aula es de otra cuenta y `alumne_mati1` no es administradora |
 | Versiones de la fase 3 | MongoDB **8.0.38**, mongosh **2.14.1**, `@nestjs/mongoose` **11.0.4** (la 12 es para NestJS 12), `mongoose` **8.24.7** (las más nuevas tenían menos de 2 semanas) | Estabilidad y compatibilidad |
-| MongoDB Compass | **Aplazado** (se puede descargar sin administrador más adelante) | Para ver los datos basta con `mongosh` |
+| MongoDB Compass | **Instalado** (1.53.2) en `~/Applications`, sin administrador | Petición de la alumna, para ver los datos con ventanas |
 | Avisos de `npm audit` | **No** se ejecuta `npm audit fix --force` | Puede romper versiones; el proyecto es local y de aprendizaje |
 | Validación de datos en el backend | **Ninguna** de momento (solo se convierten precio/stock a número) | `CLAUDE.md`: validaciones complejas fuera de alcance |
 
@@ -227,3 +236,32 @@ NestJS también crea archivos que **no usamos** (tests, configuración de format
 18. **Comprobación final de la fase 3:** la alumna añadió "KUAWEI 350" desde la web y Claude añadió "iPad Air" con el formulario (navegador simulado). Con el servidor **apagado**, la web no responde, pero MongoDB sigue teniendo 4 productos. Al **volver a arrancar**, la API devuelve los 4. ✅ **Fase 3 cerrada.**
     - Concepto: **persistencia** = los datos sobreviven aunque se apague el programa que los usa, porque están guardados en el disco (en `~/mongodb/datos`).
     - README actualizado: fase 3 🟡 → ✅.
+19. **Repaso final** hecho en el chat: diagrama del recorrido de un producto, qué hace cada pieza y qué aportó cada fase. Commit **"fase3"** subido a GitHub.
+20. Se exploraron los datos con `mongosh`: bases de datos, la colección `products`, los 4 documentos y consultas de ejemplo (`find({categoria:'tablet'})`, `$lt`, `sort`).
+    - Concepto: base de datos = almacén; colección = estantería; documento = caja; `_id` = número de serie.
+    - La alumna escribió `mongosh` y salió "command not found": no está en el `PATH` porque se instaló en `~/mongodb`. Se usa con la ruta completa `~/mongodb/mongosh/bin/mongosh`. Se ofreció añadirlo al `PATH` (`~/.zshrc`), sin respuesta todavía.
+21. **Compass instalado:** se descargó `mongodb-compass-1.53.2-darwin-arm64.zip` (la 1.53.3 era del mismo día) y se descomprimió en `~/Applications/MongoDB Compass.app`. Los archivos de licencia sueltos del zip se movieron a `~/mongodb/compass-licencias/`. Se abrió sin problemas.
+    - Para conectarse: `mongodb://localhost:27017` → base de datos `actividad01` → colección `products`.
+
+### Extra — Página del cliente (escaparate)
+
+22. La alumna pidió "cómo lo vería el usuario" con el mismo backend y la misma base de datos. Se propuso una página de **cliente** (solo lectura) separada de la de **administración**. Elecciones: tarjetas, mismos colores malva, aviso de stock; sin filtro ni enlaces.
+23. **Creado `frontend/tienda.html`:** cabecera y contenedor `#escaparate` vacío. Se sirve en `http://localhost:3000/tienda.html` (200) sin tocar el backend, porque `serve-static` entrega cualquier archivo de `frontend/`.
+24. **Creado `frontend/tienda.css`:** mismas variables malva, cabecera con degradado, rejilla de tarjetas (`auto-fill`, mínimo 220px: se adapta sola al ancho de la pantalla) y estilos de etiqueta de categoría, precio y stock (verde/rojo).
+    - Se repiten las variables de color en lugar de enlazar `styles.css`, porque `styles.css` coloca la página en dos columnas (formulario + tabla) y estropearía el escaparate.
+25. **Creado `frontend/tienda.js`:** hace `GET /api/products` (la misma ruta que la administración), crea una tarjeta por producto (categoría, nombre, marca, precio en formato español, "✔ En stock" o "✖ Agotado") y muestra "Todavía no hay productos" si la lista está vacía.
+    - Comprobación: 5 tarjetas (la alumna había añadido "Smart watch"); AirPods Pro, con stock 0, sale como "Agotado". ✅
+    - Concepto: **un mismo backend, dos frontends**. La administración escribe (POST) y lee (GET); la tienda solo lee (GET). Las dos ven los mismos datos porque comparten API y base de datos.
+
+### Extra — Despliegue en Render
+
+26. La alumna pidió desplegar en Render (cuenta free) con GitHub Actions. Se explicó: choca con "solo local" de `CLAUDE.md`; hace falta **MongoDB Atlas** porque Render no llega al MongoDB del Mac; la app no tiene login (cualquiera podrá añadir productos); Render free se duerme a los 15 min; el token necesita el permiso **Workflows**. La alumna aprobó el plan (la guía incluye crear la cuenta de Atlas; la tienda va incluida).
+27. Cambios:
+    - `app.module.ts`: `MongooseModule.forRoot(process.env.MONGODB_URI ?? 'mongodb://localhost:27017/actividad01')`. En local no cambia nada.
+    - `backend/package.json`: `"engines": { "node": "22.x" }`.
+    - **Nuevo** `.github/workflows/deploy.yml`: trabajo 1 `npm ci` + `npm run build` (Node 22); trabajo 2 (solo si el 1 va bien) llama al secret `RENDER_DEPLOY_HOOK_URL`. Si el secret no existe todavía, avisa y no falla.
+    - **Nuevo** `DESPLIEGUE.md`: guía paso a paso (token → Atlas → Render → Auto-Deploy Off → Deploy Hook en Secrets → prueba) con una tabla de problemas frecuentes.
+    - `CLAUDE.md`: se permite el despliegue en Render (y nada más en la nube sin preguntar). `README.md`: las dos caras (administración y tienda), la sección de despliegue y la estructura.
+28. **Simulación de Render en local** (copia limpia del proyecto): `npm ci` ✅ → `npm run build` ✅ (`dist/main.js`) → `PORT=4000 MONGODB_URI=… npm run start:prod` ✅ → `/`, `/tienda.html`, `/tienda.js` y `/api/products` responden 200 y devuelven los 5 productos.
+    - Concepto: **variable de entorno** = un dato que se le da al programa desde fuera (no está en el código). Sirve para que el mismo código funcione distinto en local y en Render, y para no escribir secretos en el código.
+29. **MongoDB Atlas listo (paso 1):** la alumna creó el cluster y lo comprobó **ella misma en la app Terminal** (opción B, para que la contraseña no pase por el chat): `mongosh "<su URI>" --eval "db.runCommand({ ping: 1 })"` → `{ ok: 1 }`. ✅ La dirección, el usuario y la contraseña son correctos y Network Access está abierto.

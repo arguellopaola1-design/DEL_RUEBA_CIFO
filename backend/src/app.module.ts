@@ -18,8 +18,12 @@ import { ProductsModule } from './products/products.module';
       exclude: ['/api/{*ruta}'],
     }),
     // Conexión con la base de datos MongoDB (el "almacén"):
-    // localhost:27017 = MongoDB en este ordenador; actividad01 = nombre de la base de datos
-    MongooseModule.forRoot('mongodb://localhost:27017/actividad01'),
+    // - En Render: se usa la variable de entorno MONGODB_URI (la dirección de MongoDB Atlas).
+    // - En local: si no existe esa variable, se usa el MongoDB de este ordenador
+    //   (localhost:27017, base de datos actividad01).
+    MongooseModule.forRoot(
+      process.env.MONGODB_URI ?? 'mongodb://localhost:27017/actividad01',
+    ),
     ProductsModule,
   ],
   controllers: [AppController],

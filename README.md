@@ -2,7 +2,9 @@
 
 Proyecto de aprendizaje para **entender las piezas de una aplicación fullstack** (frontend, backend y base de datos) y **cómo se comunican** entre ellas.
 
-La web es sencilla: un **formulario** para dar de alta productos tecnológicos y un **listado** (tabla) con los productos guardados.
+La web tiene **dos caras** que comparten el mismo backend y la misma base de datos:
+- **Administración** (`/`): un **formulario** para dar de alta productos tecnológicos y una **tabla** con los productos guardados.
+- **Tienda** (`/tienda.html`): el **escaparate** que ve el cliente, con los productos en **tarjetas** (solo lectura).
 
 > 🛍️ **La analogía de la tienda de tecnología**
 > - **Frontend** → el mostrador y el escaparate: lo que ve y usa el cliente.
@@ -28,6 +30,14 @@ Formulario ──fetch (POST, JSON)──▶ Backend NestJS ──Mongoose──
     ▲                                   │
     └──── tabla ◀── fetch (GET, JSON) ──┘
 ```
+
+---
+
+## ☁️ Despliegue
+
+La aplicación se publica en **[Render](https://render.com)** (plan gratuito), con la base de datos en **[MongoDB Atlas](https://www.mongodb.com/atlas)** (plan M0). Cada `git push` a `main` lanza **GitHub Actions**, que compila el backend y, si todo va bien, avisa a Render para que despliegue.
+
+👉 **Guía paso a paso: [DESPLIEGUE.md](DESPLIEGUE.md)**
 
 ---
 
@@ -81,14 +91,20 @@ Para parar el servidor: `Ctrl + C`.
 ├── README.md          ← este archivo
 ├── CLAUDE.md          ← contexto y reglas de trabajo del proyecto
 ├── PROGRESO.md        ← diario de lo que se ha hecho en cada sesión
+├── DESPLIEGUE.md      ← guía para publicar en Render + MongoDB Atlas
+├── .github/workflows/
+│   └── deploy.yml     ← GitHub Actions: compila y avisa a Render
 ├── frontend/
 │   ├── index.html     ← estructura: formulario + tabla
 │   ├── styles.css     ← aspecto (tonos malva)
-│   └── app.js         ← comportamiento: habla con la API mediante fetch
+│   ├── app.js         ← comportamiento: habla con la API mediante fetch
+│   ├── tienda.html    ← página del cliente (escaparate)
+│   ├── tienda.css     ← aspecto del escaparate (tarjetas)
+│   └── tienda.js      ← pide los productos y crea las tarjetas
 └── backend/           ← servidor NestJS
     └── src/
         ├── main.ts                     ← arranque (puerto 3000, prefijo /api)
-        ├── app.module.ts               ← sirve el frontend y conecta con MongoDB
+        ├── app.module.ts               ← sirve el frontend y conecta con MongoDB (MONGODB_URI o local)
         └── products/
             ├── product.schema.ts       ← cómo es un producto en MongoDB
             ├── products.module.ts      ← agrupa las piezas de productos

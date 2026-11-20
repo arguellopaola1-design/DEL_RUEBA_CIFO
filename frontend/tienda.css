@@ -1,0 +1,115 @@
+/* ===== Colores de la tienda (los mismos tonos malva que la administración) ===== */
+:root {
+  --malva-oscuro: #6b3e75;
+  --malva: #9b6aa6;
+  --malva-claro: #e9dcee;
+  --fondo: #f7f2f9;
+  --verde: #2e7d4f;
+  --rojo: #b3261e;
+}
+
+/* ===== Estilos generales ===== */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fondo);
+  color: #2e2233;
+}
+
+/* ===== Cabecera de la tienda ===== */
+header {
+  background: linear-gradient(135deg, var(--malva-oscuro), var(--malva));
+  color: white;
+  text-align: center;
+  padding: 40px 16px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+header p {
+  margin: 8px 0 0;
+  opacity: 0.9;
+}
+
+/* ===== Escaparate: rejilla de tarjetas ===== */
+/* Se colocan tantas tarjetas por fila como quepan (mínimo 220px de ancho cada una) */
+#escaparate {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* ===== Tarjeta de un producto ===== */
+.tarjeta {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(107, 62, 117, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.15s;
+}
+
+/* Al pasar el ratón, la tarjeta se eleva un poco */
+.tarjeta:hover {
+  transform: translateY(-4px);
+}
+
+/* Etiqueta de la categoría (arriba de la tarjeta) */
+.categoria {
+  align-self: flex-start;
+  background: var(--malva-claro);
+  color: var(--malva-oscuro);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
+
+.nombre {
+  margin: 4px 0 0;
+  font-size: 1.15rem;
+}
+
+.marca {
+  margin: 0;
+  color: #6b5b70;
+}
+
+/* Precio destacado */
+.precio {
+  margin: 8px 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--malva-oscuro);
+}
+
+/* Disponibilidad: verde si hay stock, rojo si está agotado */
+.stock {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.stock.disponible {
+  color: var(--verde);
+}
+
+.stock.agotado {
+  color: var(--rojo);
+}
+
+/* Mensaje cuando no hay productos */
+.vacio {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #6b5b70;
+}
