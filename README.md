@@ -19,9 +19,7 @@ Cada fase añade una pieza nueva sobre lo que ya funciona, para ver qué problem
 |---|---|---|---|
 | ✅ **1. Frontend** | HTML + CSS + JavaScript | En un array, en la memoria del **navegador** | Al recargar la página, se pierden |
 | ✅ **2. Backend** | NestJS (API REST) | En un array, en la memoria del **servidor** | Al reiniciar el servidor, se pierden |
-| 🟡 **3. Base de datos** | MongoDB + Mongoose | En **MongoDB**, en el disco | Ninguna: los datos **persisten** |
-
-*La fase 3 está en desarrollo.*
+| ✅ **3. Base de datos** | MongoDB + Mongoose | En **MongoDB**, en el disco | Ninguna: los datos **persisten** |
 
 ### El viaje de un producto
 

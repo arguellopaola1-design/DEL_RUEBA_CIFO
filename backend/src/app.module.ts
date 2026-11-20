@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
@@ -16,6 +17,9 @@ import { ProductsModule } from './products/products.module';
       // Las rutas que empiezan por /api son de la API, no archivos del frontend
       exclude: ['/api/{*ruta}'],
     }),
+    // Conexión con la base de datos MongoDB (el "almacén"):
+    // localhost:27017 = MongoDB en este ordenador; actividad01 = nombre de la base de datos
+    MongooseModule.forRoot('mongodb://localhost:27017/actividad01'),
     ProductsModule,
   ],
   controllers: [AppController],
