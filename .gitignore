@@ -1,2 +1,8 @@
 # Archivo oculto que macOS crea en las carpetas: no lo guardamos
 .DS_Store
+
+# Librerías descargadas por npm (se recuperan con "npm install"): no las guardamos
+node_modules/
+
+# Código compilado del backend (se genera solo al arrancar): no lo guardamos
+dist/

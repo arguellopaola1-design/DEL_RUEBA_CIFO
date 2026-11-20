@@ -31,7 +31,7 @@ Una web sencilla con:
 ### Restricciones
 - **Solo local.** Nada de despliegues ni servicios en la nube.
 - **Sin autenticación** de momento.
-- **Git solo en local.** Hay un único repositorio git en la raíz del proyecto (`actividad01/`). Los commits se hacen solo cuando la alumna lo pida. Nada de subirlo a internet (GitHub, etc.). Al crear el proyecto NestJS, usa la opción `--skip-git`, porque `nest new` crea su propio repositorio git por defecto y no queremos uno dentro de otro.
+- **Git solo en local.** Hay un único repositorio git en la raíz del proyecto (`actividad01/`). Los commits se hacen solo cuando la alumna lo pida. Remoto en GitHub: `https://github.com/arguellopaola1-design/DEL_RUEBA_CIFO.git` (`origin`). Solo se sube (`git push`) cuando la alumna lo pida. El login lo hace ella con un token: Claude nunca ve ni guarda credenciales. Al crear el proyecto NestJS, usa la opción `--skip-git`, porque `nest new` crea su propio repositorio git por defecto y no queremos uno dentro de otro.
 - **Sistema operativo:** macOS o Linux. Si un comando es distinto en cada uno, indica las dos versiones.
 
 ## 3. Modelo de datos: `Product`

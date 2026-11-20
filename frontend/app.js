@@ -1,15 +1,20 @@
 // ===== app.js: el COMPORTAMIENTO de la página =====
+// Fase 2: los productos ya NO se guardan aquí, en el navegador.
+// Se guardan en el servidor (backend), y hablamos con él mediante fetch.
 
-// Aquí guardamos los productos: un array (una lista) en la memoria del navegador.
-// Ojo: si recargas la página, esta lista empieza vacía otra vez.
-const productos = [];
+// Dirección de la API (el servidor NestJS). Es relativa: el mismo servidor
+// que nos ha entregado esta página (http://localhost:3000).
+const API_URL = '/api/products';
 
 // Buscamos en el HTML los elementos que vamos a usar (por su id)
 const formulario = document.getElementById('form-producto');
 const tablaProductos = document.getElementById('lista-productos');
 
+// Al abrir la página, pedimos al servidor los productos que ya tiene
+cargarProductos();
+
 // Cuando se pulsa "Guardar", se ejecuta esta función
-formulario.addEventListener('submit', function (evento) {
+formulario.addEventListener('submit', async function (evento) {
   // Evitamos que la página se recargue (es lo que hace un formulario por defecto)
   evento.preventDefault();
 
@@ -22,18 +27,29 @@ formulario.addEventListener('submit', function (evento) {
     stock: Number(document.getElementById('stock').value) || 0, // si está vacío, 0
   };
 
-  // 2. Lo añadimos a la lista
-  productos.push(producto);
+  // 2. Lo enviamos al servidor: petición POST con el producto en formato JSON
+  await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(producto),
+  });
 
-  // 3. Volvemos a pintar la tabla con todos los productos
-  pintarTabla();
+  // 3. Volvemos a pedir la lista al servidor y pintamos la tabla
+  await cargarProductos();
 
   // 4. Vaciamos el formulario para el siguiente producto
   formulario.reset();
 });
 
+// Pide al servidor la lista de productos (petición GET) y la pinta
+async function cargarProductos() {
+  const respuesta = await fetch(API_URL);
+  const productos = await respuesta.json(); // convertimos el JSON en un array
+  pintarTabla(productos);
+}
+
 // Dibuja una fila de la tabla por cada producto de la lista
-function pintarTabla() {
+function pintarTabla(productos) {
   // Vaciamos la tabla antes de volver a dibujarla
   tablaProductos.innerHTML = '';
 
